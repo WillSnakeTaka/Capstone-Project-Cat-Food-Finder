@@ -1,38 +1,122 @@
-.App {
-  text-align: center;
+:root {
+  --ink: #15253f;
+  --bg-top: #f9f3d7;
+  --bg-mid: #e3f4ef;
+  --bg-bottom: #c8e1ff;
+  --card: #ffffffea;
+  --line: #d6e2ef;
+  --accent: #0e8b7f;
+  --accent-hover: #0a7268;
+  --error: #b4233a;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+* {
+  box-sizing: border-box;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+body {
+  margin: 0;
+  font-family: "Avenir Next", "Trebuchet MS", sans-serif;
+  color: var(--ink);
+  background: linear-gradient(160deg, var(--bg-top), var(--bg-mid), var(--bg-bottom));
   min-height: 100vh;
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.app-card {
+  width: min(760px, 100%);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 28px;
+  box-shadow: 0 18px 40px rgba(21, 37, 63, 0.15);
+}
+
+.app-title {
+  margin: 0;
+  font-size: clamp(2rem, 3.2vw, 2.6rem);
+}
+
+.app-subtitle {
+  margin: 8px 0 20px;
+  color: #35547a;
+}
+
+form {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+input[type="text"] {
+  flex: 1;
+  min-width: 220px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 11px 12px;
+  font-size: 1rem;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+input[type="submit"] {
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 12px;
+  padding: 11px 16px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background: var(--accent-hover);
+}
+
+.movie-panel {
+  margin-top: 20px;
+  border-top: 1px solid var(--line);
+  padding-top: 20px;
+}
+
+.movie-title {
+  margin: 0;
+  font-size: 1.7rem;
+}
+
+.movie-meta {
+  margin: 8px 0 16px;
+  color: #35547a;
+}
+
+.movie-poster {
+  width: min(320px, 100%);
+  border-radius: 14px;
+  border: 1px solid var(--line);
+}
+
+.movie-plot {
+  max-width: 60ch;
+  margin: 14px auto 0;
+  line-height: 1.55;
+}
+
+.state-text {
+  margin-top: 20px;
+  color: #35547a;
+}
+
+.state-text.error {
+  color: var(--error);
+}
+
+@media (max-width: 640px) {
+  .app-card {
+    padding: 20px;
   }
 }
