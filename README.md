@@ -1,4 +1,4 @@
-[ample Link:]()
+[Sample Link:🔗](https://willsnaketaka.github.io/Capstone-Project-Cat-Food-Finder/)
 
 
 # Cat Food Tracker
