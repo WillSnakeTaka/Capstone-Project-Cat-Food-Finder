@@ -1,0 +1,174 @@
+:root {
+  --bg1: #fff8ed;
+  --bg2: #ddf0ff;
+  --ink: #25374b;
+  --accent: #ef8e62;
+  --accent-dark: #d37245;
+  --line: #d8e4ef;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Avenir Next", "Trebuchet MS", sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 18% 12%, rgba(255, 255, 255, 0.75), transparent 38%),
+    linear-gradient(145deg, var(--bg1), var(--bg2));
+}
+
+.shell {
+  width: min(900px, 100%);
+  margin: 0 auto;
+  padding: 28px 16px;
+  display: grid;
+  gap: 14px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 12px 28px rgba(37, 55, 75, 0.1);
+}
+
+.eyebrow {
+  margin: 0;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: #2e7293;
+  font-weight: 700;
+}
+
+h1 {
+  margin: 6px 0 10px;
+}
+
+.cta-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  text-decoration: none;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-weight: 700;
+}
+
+.btn:hover {
+  background: var(--accent-dark);
+}
+
+.btn.ghost {
+  background: #eef6fc;
+  color: #355a79;
+  border: 1px solid #c4d9ea;
+}
+
+.kitty {
+  display: grid;
+  justify-items: center;
+}
+
+.cat-face {
+  width: 150px;
+  height: 130px;
+  background: #ffd6b8;
+  border: 3px solid #3a2d2d;
+  border-radius: 48% 48% 42% 42%;
+  position: relative;
+  animation: bob 2.8s ease-in-out infinite;
+}
+
+.ear {
+  position: absolute;
+  width: 0;
+  height: 0;
+  top: -30px;
+  border-left: 18px solid transparent;
+  border-right: 18px solid transparent;
+  border-bottom: 34px solid #3a2d2d;
+}
+
+.ear.left {
+  left: 10px;
+  transform: rotate(-16deg);
+}
+
+.ear.right {
+  right: 10px;
+  transform: rotate(16deg);
+}
+
+.ear::after {
+  content: "";
+  position: absolute;
+  left: -12px;
+  top: 7px;
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-bottom: 22px solid #ffcab3;
+}
+
+.eye {
+  position: absolute;
+  width: 11px;
+  height: 15px;
+  background: #69b43d;
+  border: 2px solid #1c3510;
+  border-radius: 50%;
+  top: 45px;
+}
+
+.eye.left {
+  left: 42px;
+}
+
+.eye.right {
+  right: 42px;
+}
+
+.nose {
+  position: absolute;
+  width: 10px;
+  height: 8px;
+  background: #f27d9f;
+  border-radius: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 68px;
+}
+
+.mouth {
+  position: absolute;
+  width: 20px;
+  height: 10px;
+  border: 2px solid #3a2d2d;
+  border-top: none;
+  border-radius: 0 0 18px 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 78px;
+}
+
+.note {
+  text-align: center;
+}
+
+@keyframes bob {
+  0%,
+  100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
