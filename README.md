@@ -1,3 +1,7 @@
+(ample Link:)[git remote add origin https://github.com/WillSnakeTaka/Capstone-Project-Cat-Food-Finder.git
+git push -u origin main]
+
+
 # Cat Food Tracker
 
 Portfolio-ready full-stack app for managing cat food inventory with secure user auth and private data access.
