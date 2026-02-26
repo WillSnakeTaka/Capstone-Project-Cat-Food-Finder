@@ -1,5 +1,4 @@
-(ample Link:)[git remote add origin https://github.com/WillSnakeTaka/Capstone-Project-Cat-Food-Finder.git
-git push -u origin main]
+[ample Link:]()
 
 
 # Cat Food Tracker
