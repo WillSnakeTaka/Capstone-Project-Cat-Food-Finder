@@ -29,7 +29,7 @@ Table: `catfoods`
 - `description` text
 - `user_id` uuid references `auth.users(id)`
 
-SQL and policies are in:
+MongoDB (***) and policies are in:    (MongoDB Leaf one "compass")
 - `supabase/schema.sql`
 
 ## RESTful API Design (implemented through Supabase client)
