@@ -13,11 +13,14 @@ Portfolio-ready full-stack app for managing cat food inventory with secure user 
 
 ## Features
 - Email/password signup and login
-- Persistent authenticated session
+- Persistent authenticated session // chose between user and buyer account. Fetch data
 - Protected dashboard route
 - Full CRUD for `catfoods`
 - Filter by type (`wet` / `dry`)
-- Optional recall warning badge when product names match FDA recall text
+- Optional recall warning badge when product names match FDA recall text  //  health choosing options.
+
+- Home (mini sample of cat), About, Main projec, contact.      Main=> basic;  advanced calulation statistic section.  (bubbble choice for input simialr to amazon rating sort)
+- 2 schemas, 6 pages front end design, logic on basic and advanced calcu.  (data/ front/ backend)   Frontend mainpage.  (random cat api.. )
 
 ## Database Design
 Table: `catfoods`
