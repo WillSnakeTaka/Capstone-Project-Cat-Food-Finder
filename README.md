@@ -1,5 +1,6 @@
 [Sample Link:🔗](https://willsnaketaka.github.io/Capstone-Project-Cat-Food-Finder/)
 
+(Updates, Use MangoDB and beyond cat API for more)
 
 # Cat Food Tracker
 
