@@ -27,7 +27,7 @@ Table: `catfoods`
 - `brand` text not null
 - `size` text
 - `description` text
-- `user_id` uuid references `auth.users(id)`
+- `user_id` uuid references `auth.users(id)` // User schema, signup page, button (buyer seller option) =>  connect to schema.user for data fetching.
 
 MongoDB (***) and policies are in:    (MongoDB Leaf one "compass")
 - `supabase/schema.sql`
