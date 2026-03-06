@@ -1,5 +1,13 @@
 [Sample Link:🔗](https://willsnaketaka.github.io/Capstone-Project-Cat-Food-Finder/)
 
+React VIT latest (less dependencies... )
+Render (requirements.. )
+Mongo DB. (server, mongoDB backend, uploade to render through github,  install enviroments,
+put dependencies in requirement. MongoDB IP is allowed from render IP addresses, whitelist all IP addresses* or render list. 
+Manuel deployement, 74.220.48.0/24
+74.220.56.0/24   (render.... )..  (testing uptime... risk*)
+)
+
 (Updates, Use MangoDB and beyond cat API for more)
 
 # Cat Food Tracker
