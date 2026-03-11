@@ -8,30 +8,50 @@ const __dirname = path.dirname(__filename);
 const DB_FILE = path.resolve(__dirname, "../../data/db.json");
 const DEMO_SELLER_HASH = "$2a$10$IJQjW.JZ0UezijxHrMhi5umsGJmov9MJvG7dbQtEr1jV4C/hNZXNW";
 
-function slugify(value) {
-  return String(value || "cat")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 48);
-}
-
-function createCatImageUrl(product) {
-  const labels = {
-    wet: "Wet Food",
-    dry: "Dry Food",
-    treat: "Treat Time",
-    supplement: "Cat Care",
+function createFoodArtwork(product) {
+  const palette = {
+    wet: ["#ffd7c2", "#ff9d72", "#fff6ef", "Fish Feast"],
+    dry: ["#fff0c2", "#d8a12f", "#fffaf0", "Crunch Bowl"],
+    treat: ["#d8f7df", "#57b77c", "#f6fff7", "Treat Time"],
+    supplement: ["#dfe5ff", "#6c7ad8", "#f7f8ff", "Wellness Mix"],
   };
-  const label = labels[product.category] || "Cat Food";
-  const seed = slugify(`${product.category}-${product.title || product.brand || product.id}`);
-  return `https://cataas.com/cat/says/${encodeURIComponent(label)}?width=640&height=420&fontSize=30&fontColor=white&position=bottom&cache=${seed}`;
+  const [surface, accent, paper, sublabel] = palette[product.category] || palette.wet;
+  const badge =
+    product.category === "wet" ? "BOWL" : product.category === "dry" ? "KIBBLE" : product.category === "treat" ? "TREATS" : "CARE";
+  const icon =
+    product.category === "wet" ? "FISH" : product.category === "dry" ? "CRUNCH" : product.category === "treat" ? "SNACK" : "CARE";
+  const title = String(product.title || "Cat Food").slice(0, 22);
+  const brand = String(product.brand || "CatCart").slice(0, 22);
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420">
+      <rect width="640" height="420" fill="${paper}"/>
+      <rect x="22" y="22" width="596" height="376" rx="28" fill="${surface}" stroke="${accent}" stroke-width="6"/>
+      <circle cx="122" cy="116" r="64" fill="${accent}" opacity="0.16"/>
+      <circle cx="520" cy="310" r="82" fill="${accent}" opacity="0.12"/>
+      <rect x="60" y="56" width="112" height="40" rx="20" fill="${accent}"/>
+      <text x="116" y="82" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#ffffff">${badge}</text>
+      <text x="60" y="168" font-family="Arial, Helvetica, sans-serif" font-size="44" font-weight="800" fill="#2d1b2e">${title}</text>
+      <text x="60" y="212" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#5b4666">${brand}</text>
+      <text x="60" y="250" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#6b5b7e">${sublabel}</text>
+      <rect x="60" y="286" width="210" height="72" rx="24" fill="${accent}" opacity="0.9"/>
+      <text x="165" y="332" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="800" fill="#ffffff">${icon}</text>
+      <path d="M446 128c-26 0-48 18-54 42-8-10-20-16-33-16-25 0-44 19-44 46 0 47 61 94 109 122 49-28 109-75 109-122 0-27-20-46-44-46-13 0-25 6-33 16-6-24-28-42-55-42z" fill="${accent}" opacity="0.82"/>
+      <text x="476" y="338" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#5b4666">cat approved</text>
+    </svg>
+  `;
+  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
 }
 
 function normalizeProduct(product) {
   const imageUrl = String(product.imageUrl || "");
-  if (!imageUrl || imageUrl.includes("picsum.photos") || imageUrl.startsWith("data:image/svg+xml")) {
-    return { ...product, imageUrl: createCatImageUrl(product) };
+  if (
+    !imageUrl ||
+    imageUrl.includes("picsum.photos") ||
+    imageUrl.includes("cataas.com") ||
+    imageUrl.includes("thecatapi.com") ||
+    imageUrl.startsWith("data:image/svg+xml")
+  ) {
+    return { ...product, imageUrl: createFoodArtwork(product) };
   }
   return product;
 }

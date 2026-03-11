@@ -8,9 +8,30 @@ const __dirname = path.dirname(__filename);
 const DB_FILE = path.resolve(__dirname, "../data/db.json");
 
 function generateImageUrl(index) {
-  const label =
-    index <= 20 ? "Wet Food" : index <= 60 ? "Dry Food" : index <= 85 ? "Treat Time" : "Cat Care";
-  return `https://cataas.com/cat/says/${encodeURIComponent(label)}?width=640&height=420&fontSize=30&fontColor=white&position=bottom&cache=seed-${index}`;
+  const palette =
+    index <= 20
+      ? ["#ffd7c2", "#ff9d72", "SEAFOOD BOWL"]
+      : index <= 60
+        ? ["#fff0c2", "#d8a12f", "CRUNCH BAG"]
+        : index <= 85
+          ? ["#d8f7df", "#57b77c", "CAT TREATS"]
+          : ["#dfe5ff", "#6c7ad8", "WELLNESS CARE"];
+  const [surface, accent, label] = palette;
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420">
+      <rect width="640" height="420" fill="#fffaf0"/>
+      <rect x="22" y="22" width="596" height="376" rx="28" fill="${surface}" stroke="${accent}" stroke-width="6"/>
+      <rect x="52" y="52" width="170" height="44" rx="22" fill="${accent}"/>
+      <text x="137" y="80" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#ffffff">${label}</text>
+      <circle cx="490" cy="132" r="74" fill="${accent}" opacity="0.16"/>
+      <path d="M438 132c0-46 32-76 72-76 40 0 72 30 72 76 0 61-74 112-74 112s-70-45-70-112z" fill="${accent}" opacity="0.88"/>
+      <text x="118" y="220" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="800" fill="#2d1b2e">Cat Food</text>
+      <text x="118" y="262" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#5b4666">shop seed artwork</text>
+      <rect x="92" y="296" width="210" height="60" rx="24" fill="${accent}" opacity="0.92"/>
+      <text x="197" y="334" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="800" fill="#ffffff">cat approved</text>
+    </svg>
+  `;
+  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
 }
 
 const seedProducts = [

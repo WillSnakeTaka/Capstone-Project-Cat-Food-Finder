@@ -1,6 +1,4 @@
-const API_BASE =
-  process.env.REACT_APP_API_BASE_URL ||
-  (typeof window !== "undefined" && window.location.hostname !== "localhost" ? "/api" : "http://localhost:4000/api");
+const API_BASE = process.env.REACT_APP_API_BASE_URL || "/api";
 
 export function getToken(): string {
   return localStorage.getItem("token") || "";

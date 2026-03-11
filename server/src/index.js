@@ -14,7 +14,18 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const webBuildPath = path.resolve(__dirname, "../..", "build");
 
-app.use(cors({ origin: env.clientOrigin, credentials: true }));
+app.use(
+  cors({
+    origin(origin, callback) {
+      if (!origin) return callback(null, true);
+      if (origin === env.clientOrigin) return callback(null, true);
+      if (/^http:\/\/localhost:\d+$/.test(origin)) return callback(null, true);
+      if (/^https:\/\/.*onrender\.com$/.test(origin)) return callback(null, true);
+      return callback(null, false);
+    },
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(morgan("dev"));
 

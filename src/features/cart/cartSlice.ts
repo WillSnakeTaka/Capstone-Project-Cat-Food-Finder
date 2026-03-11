@@ -6,8 +6,53 @@ interface CartState {
   items: CartItem[];
 }
 
-const storedCart = localStorage.getItem("cart");
-const initialState: CartState = storedCart ? JSON.parse(storedCart) : { items: [] };
+function normalizeStoredItems(items: unknown): CartItem[] {
+  if (!Array.isArray(items)) return [];
+
+  return items
+    .filter((item): item is Partial<CartItem> => Boolean(item && typeof item === "object"))
+    .map((item) => ({
+      productId: String(item.productId || ""),
+      title: String(item.title || "Cat food"),
+      imageUrl: item.imageUrl ? String(item.imageUrl) : "",
+      price: Number(item.price || 0),
+      quantity: Math.max(1, Number(item.quantity || 1)),
+    }))
+    .filter((item) => item.productId);
+}
+
+function readStoredCart(): CartState {
+  const raw =
+    localStorage.getItem("catcart-cart") ||
+    localStorage.getItem("cart") ||
+    localStorage.getItem("cartItems");
+
+  if (!raw) return { items: [] };
+
+  try {
+    const parsed = JSON.parse(raw);
+
+    if (Array.isArray(parsed)) {
+      return { items: normalizeStoredItems(parsed) };
+    }
+
+    if (parsed && typeof parsed === "object" && "items" in parsed) {
+      return { items: normalizeStoredItems((parsed as { items?: unknown }).items) };
+    }
+  } catch {
+    return { items: [] };
+  }
+
+  return { items: [] };
+}
+
+function persistCart(items: CartItem[]) {
+  const payload = JSON.stringify({ items });
+  localStorage.setItem("cart", payload);
+  localStorage.setItem("catcart-cart", payload);
+}
+
+const initialState: CartState = readStoredCart();
 
 const cartSlice = createSlice({
   name: "cart",
@@ -27,21 +72,21 @@ const cartSlice = createSlice({
           quantity: 1,
         });
       }
-      localStorage.setItem("cart", JSON.stringify(state));
+      persistCart(state.items);
     },
     removeFromCart(state, action: PayloadAction<string>) {
       state.items = state.items.filter((item) => item.productId !== action.payload);
-      localStorage.setItem("cart", JSON.stringify(state));
+      persistCart(state.items);
     },
     setQuantity(state, action: PayloadAction<{ productId: string; quantity: number }>) {
       const item = state.items.find((entry) => entry.productId === action.payload.productId);
       if (!item) return;
       item.quantity = Math.max(1, action.payload.quantity);
-      localStorage.setItem("cart", JSON.stringify(state));
+      persistCart(state.items);
     },
     clearCart(state) {
       state.items = [];
-      localStorage.setItem("cart", JSON.stringify(state));
+      persistCart(state.items);
     },
   },
 });
