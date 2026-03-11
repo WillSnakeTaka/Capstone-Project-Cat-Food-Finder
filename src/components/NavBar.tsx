@@ -9,13 +9,17 @@ export default function NavBar() {
 
   return (
     <header className="top-nav">
-      <Link className="brand" to="/">CatCart</Link>
+      <Link className="brand" to="/">🐱 CatCart</Link>
       <nav className="nav-links">
         <NavLink to="/">Home</NavLink>
         <NavLink to="/shop">Shop</NavLink>
+        <NavLink to="/expert">Expert Guide</NavLink>
+        <NavLink to="/rescue">Rescue</NavLink>
+        <NavLink to="/musicians">Musicians</NavLink>
+        <NavLink to="/quiz">Quiz</NavLink>
         <NavLink to="/cart">Cart ({cartCount})</NavLink>
         <NavLink to="/about">About</NavLink>
-        {user?.role === "seller" && <NavLink to="/dashboard">Seller Dashboard</NavLink>}
+        {user?.role === "seller" && <NavLink to="/dashboard">Dashboard</NavLink>}
         {!user ? <NavLink to="/auth">Login</NavLink> : <button className="ghost-btn" onClick={logout} type="button">Logout</button>}
       </nav>
     </header>

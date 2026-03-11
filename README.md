@@ -1,135 +1,147 @@
-# CatCart Marketplace (TypeScript + MERN)
+# CatCart Marketplace
 
-Amazon-style cat food shopping app built for capstone rubric requirements.
+Cute cat shopping site with a cat health hub, rescue board, cat musicians feed, and a small quiz.
 
-## Stack
-- Frontend: React + TypeScript + React Router + Redux Toolkit
-- Backend: Node.js + Express + MongoDB (Mongoose)
-- Auth: JWT + bcrypt
+## What This Project Is
 
-## Rubric Alignment (from screenshot)
-- Project structure and naming: organized by `api`, `components`, `pages`, `context`, `features`, `app`.
-- Core JS/TS: async/await, fetch API usage, DRY reusable API helpers, exception handling in UI + server.
-- Server: RESTful API, CRUD routes for products, Mongoose models, JWT auth/authorization.
-- Frontend: React + CSS, 4+ pages, router navigation, hooks + Redux state, direct API integration.
+CatCart is a MERN-style capstone project.
 
-## Main Features
-- Buyer and seller signup/login
-- Shop page with ranking filters:
-  - `newest`
-  - `priceAsc`
-  - `priceDesc`
-  - `rating` (stars)
-- Seller dashboard with full product CRUD
-- Cart page (add/remove/update quantity/total)
-- Optional recall matching badge via FDA data endpoint
+In normal MERN:
+- `MongoDB` stores the data
+- `Express` handles the API
+- `React` builds the frontend
+- `Node` runs the server
 
-## Routes
-Frontend routes:
-- `/` Home
-- `/shop` Shop
-- `/cart` Cart
-- `/dashboard` Seller dashboard (protected)
-- `/auth` Login/Signup
-- `/about` About
+In this project:
+- we kept the `Express + React + Node` flow
+- we replaced MongoDB with a simple fake JSON database so the app is easier to run and deploy for class/demo use
 
-Backend routes:
+That means the app still behaves like a small full-stack shop, but setup is much simpler.
+
+## Frontend
+
+Main frontend features:
+- Shop page with cat-only food, treats, and supplements
+- Sort options: `Top Rated`, `Newest`, `Price Low to High`, `Price High to Low`
+- Product detail page
+- Cart page
+- Cat health page with live cat facts and cat images
+- Rescue board for homeless cat reports
+- Cat musicians social-style feed
+- Cat quiz with a `Next Fact` button
+
+Frontend stack:
+- `React`
+- `TypeScript`
+- `React Router`
+- `Redux Toolkit`
+- `fetch`
+
+## Backend
+
+Main backend features:
+- JWT login and signup
+- Buyer and seller roles
+- Product CRUD
+- Cat health API proxy routes
+- Community routes for rescue reports and musician posts
+- Fake JSON database in `server/data/db.json`
+
+Backend stack:
+- `Node.js`
+- `Express`
+- `bcryptjs`
+- `jsonwebtoken`
+
+## API List
+
+Auth:
 - `POST /api/auth/register`
 - `POST /api/auth/login`
 - `GET /api/auth/me`
+
+Products:
 - `GET /api/products`
 - `GET /api/products/mine`
 - `POST /api/products`
 - `PUT /api/products/:id`
 - `DELETE /api/products/:id`
-- `GET /api/recalls`
 
-## Local Setup
-1. Install frontend deps:
+Cat health:
+- `GET /api/cat-health/facts`
+- `GET /api/cat-health/image`
+
+Community:
+- `GET /api/community/rescue-reports`
+- `POST /api/community/rescue-reports`
+- `GET /api/community/musician-posts`
+- `POST /api/community/musician-posts`
+
+System:
+- `GET /api/health`
+
+## Local Run
+
 ```bash
 npm install
-```
-2. Install backend deps:
-```bash
 cd server && npm install && cd ..
-```
-3. Create env files:
-```bash
 cp .env.example .env
 cp server/.env.example server/.env
-```
-4. Set `server/.env`:
-```env
-PORT=4000
-MONGODB_URI=mongodb://127.0.0.1:27017/catcart
-JWT_SECRET=replace-with-long-random-secret
-CLIENT_ORIGIN=http://localhost:3000
-```
-
-## Run
-Terminal 1:
-```bash
 npm run server
 ```
 
-Terminal 2:
+In a second terminal:
+
 ```bash
 npm start
 ```
 
-## Build Check
-```bash
-npm run build
+Local URLs:
+- frontend: `http://localhost:3000`
+- backend health: `http://localhost:4000/api/health`
+
+Demo seller login:
+- email: `seller@example.com`
+- password: `password123`
+
+## Environment
+
+`server/.env`
+
+```env
+PORT=4000
+JWT_SECRET=replace-with-strong-secret
+CLIENT_ORIGIN=http://localhost:3000
 ```
-Old ReadMe 
-Sample Link:🔗
 
-React VIT latest (less dependencies... ) Render (requirements.. ) Mongo DB. (server, mongoDB backend, uploade to render through github, install enviroments, put dependencies in requirement. MongoDB IP is allowed from render IP addresses, whitelist all IP addresses* or render list. Manuel deployement, 74.220.48.0/24 74.220.56.0/24 (render.... ).. (testing uptime... risk*) )
+## Render Deploy
 
-(Updates, Use MangoDB and beyond cat API for more)
+This repo already includes `render.yaml`.
 
-Cat Food Tracker
-Portfolio-ready full-stack app for managing cat food inventory with secure user auth and private data access.
+Render setup:
+1. Push this repo to GitHub.
+2. In Render, choose `New` -> `Blueprint`.
+3. Select this repo.
+4. Add these env vars in Render:
+   - `JWT_SECRET`
+   - `CLIENT_ORIGIN`
+5. Deploy.
 
-Stack
-Frontend: React (CRA), React Router, Fetch API
-Backend services: Supabase Auth + Supabase Postgres
-Security: Supabase Row Level Security (RLS)
-Optional integration: FDA open recalls API
-Features
-Email/password signup and login
+Render notes:
+- the Express server serves both the API and the React build
+- the fake DB is stored in `server/data/db.json`
+- the Render disk in `render.yaml` keeps that fake DB persistent
+- frontend API calls use relative `/api` in production, so no extra frontend env var is required
 
-Persistent authenticated session // chose between user and buyer account. Fetch data
+## Cute Extras
 
-Protected dashboard route
+- Product cards use cat-food artwork instead of random scenery
+- Banners use live cat images from cat APIs
+- Rescue page links to real cat-related rescue/search sites like `Petfinder`, `PawBoost`, `Petco Love Lost`, and `Alley Cat Allies`
+- Quiz uses live cat facts API data
 
-Full CRUD for catfoods
+## Simple Project Pitch
 
-Filter by type (wet / dry)
-
-Optional recall warning badge when product names match FDA recall text // health choosing options.
-
-Home (mini sample of cat), About, Main projec, contact. Main=> basic; advanced calulation statistic section. (bubbble choice for input simialr to amazon rating sort)
-
-2 schemas, 6 pages front end design, logic on basic and advanced calcu. (data/ front/ backend) Frontend mainpage. (random cat api.. )
-
-Database Design
-Table: catfoods
-
-id bigint primary key
-name text not null
-type text check (wet, dry)
-brand text not null
-size text
-description text
-user_id uuid references auth.users(id) // User schema, signup page, button (buyer seller option) => connect to schema.user for data fetching.
-MongoDB (***) and policies are in: (MongoDB Leaf one "compass")
-
-supabase/schema.sql
-RESTful API Design (implemented through Supabase client)
-Inside src/api/catfoodsApi.js:
-
-listCatFoods(type) -> GET /catfoods?type=
-createCatFood(payload) -> POST /catfoods
-updateCatFood(id, payload) -> PATCH /catfoods/:id
-deleteCatFood(id) -> DELETE /catfoods/:id
+CatCart is a cute cat-first shopping site that mixes e-commerce with cat care and community tools.
+People can shop for cat food, learn cat health basics, report homeless cats, and hang out in a fun cat musician feed.
+It is simple enough to demo quickly, but full-stack enough to show real frontend/backend/API structure.

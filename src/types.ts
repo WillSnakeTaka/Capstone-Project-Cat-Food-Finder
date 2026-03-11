@@ -30,3 +30,23 @@ export interface CartItem {
   price: number;
   quantity: number;
 }
+
+export interface RescueReport {
+  id: string;
+  catName: string;
+  city: string;
+  contactName: string;
+  contactInfo: string;
+  description: string;
+  status: string;
+  createdAt: string;
+}
+
+export interface MusicianPost {
+  id: string;
+  stageName: string;
+  style: string;
+  caption: string;
+  favoriteTrack: string;
+  createdAt: string;
+}

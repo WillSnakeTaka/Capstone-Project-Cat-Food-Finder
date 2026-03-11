@@ -2,6 +2,9 @@
   "name": "catcart-marketplace",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=20 <25"
+  },
   "dependencies": {
     "@reduxjs/toolkit": "^2.11.2",
     "@testing-library/dom": "^10.4.1",
@@ -14,9 +17,9 @@
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-redux": "^9.2.0",
-    "react-router-dom": "^7.13.1",
+    "react-router-dom": "^6.30.3",
     "react-scripts": "5.0.1",
-    "typescript": "^5.9.3",
+    "typescript": "4.9.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../app/store";
+import CatPhotoBanner from "../components/CatPhotoBanner";
 import { clearCart, removeFromCart, selectCartTotal, setQuantity } from "../features/cart/cartSlice";
 
 export default function CartPage() {
@@ -8,7 +9,12 @@ export default function CartPage() {
   const total = useSelector(selectCartTotal);
 
   return (
-    <section>
+    <section className="page-stack">
+      <CatPhotoBanner
+        title="Your CatCart basket"
+        subtitle="Adjust quantities, keep favorites, and get your cat's next meal plan organized."
+        tone="gold"
+      />
       <div className="row-between page-header">
         <h1>Your Cart</h1>
         {items.length > 0 && <button className="ghost-btn" onClick={() => dispatch(clearCart())}>Clear Cart</button>}

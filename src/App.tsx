@@ -7,6 +7,11 @@ import DashboardPage from "./pages/DashboardPage";
 import AuthPage from "./pages/AuthPage";
 import ShopPage from "./pages/ShopPage";
 import CartPage from "./pages/CartPage";
+import ProductDetailPage from "./pages/ProductDetailPage";
+import CatExpertPage from "./pages/CatExpertPage";
+import CatMusiciansPage from "./pages/CatMusiciansPage";
+import CatQuizPage from "./pages/CatQuizPage";
+import CatRescuePage from "./pages/CatRescuePage";
 import { AuthProvider } from "./context/AuthContext";
 
 function NotFoundPage() {
@@ -27,7 +32,12 @@ export default function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/shop" element={<ShopPage />} />
+            <Route path="/product/:id" element={<ProductDetailPage />} />
             <Route path="/cart" element={<CartPage />} />
+            <Route path="/expert" element={<CatExpertPage />} />
+            <Route path="/rescue" element={<CatRescuePage />} />
+            <Route path="/musicians" element={<CatMusiciansPage />} />
+            <Route path="/quiz" element={<CatQuizPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/auth" element={<AuthPage />} />
             <Route path="/dashboard" element={<ProtectedRoute role="seller"><DashboardPage /></ProtectedRoute>} />

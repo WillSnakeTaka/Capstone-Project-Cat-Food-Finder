@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import ProductForm from "../components/ProductForm";
 import ProductList from "../components/ProductList";
+import CatPhotoBanner from "../components/CatPhotoBanner";
 import { createProduct, deleteProduct, listMyProducts, updateProduct } from "../api/productsApi";
 import { Product } from "../types";
 
@@ -53,8 +54,12 @@ export default function DashboardPage() {
   }
 
   return (
-    <section>
-      <h1>Seller Dashboard</h1>
+    <section className="page-stack">
+      <CatPhotoBanner
+        title="Seller Dashboard"
+        subtitle="Manage cat food listings, update pricing, and keep the storefront tidy for shoppers."
+        tone="peach"
+      />
       <ProductForm onSubmit={handleSubmit} editingItem={editingItem} onCancel={() => setEditingItem(null)} />
       <h2 className="section-title">My Listings</h2>
       {loading ? <p className="status-card">Loading your products...</p> : <ProductList items={items} mode="seller" onEdit={setEditingItem} onDelete={handleDelete} />}
