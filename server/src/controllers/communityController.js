@@ -1,12 +1,10 @@
-import {
-  createMusicianPost,
-  createRescueReport,
-  listMusicianPosts,
-  listRescueReports,
-} from "../data/fakeDb.js";
+import { MusicianPost } from "../models/MusicianPost.js";
+import { RescueReport } from "../models/RescueReport.js";
+import { toMusicianPost, toRescueReport } from "../utils/serializers.js";
 
 export async function getRescueReports(_req, res) {
-  return res.json(await listRescueReports());
+  const reports = await RescueReport.find().sort({ createdAt: -1 }).lean();
+  return res.json(reports.map(toRescueReport));
 }
 
 export async function postRescueReport(req, res) {
@@ -15,11 +13,13 @@ export async function postRescueReport(req, res) {
     return res.status(400).json({ message: "city, contactName, contactInfo, and description are required" });
   }
 
-  return res.status(201).json(await createRescueReport(req.body));
+  const report = await RescueReport.create(req.body);
+  return res.status(201).json(toRescueReport(report));
 }
 
 export async function getMusicianPosts(_req, res) {
-  return res.json(await listMusicianPosts());
+  const posts = await MusicianPost.find().sort({ createdAt: -1 }).lean();
+  return res.json(posts.map(toMusicianPost));
 }
 
 export async function postMusicianPost(req, res) {
@@ -28,5 +28,6 @@ export async function postMusicianPost(req, res) {
     return res.status(400).json({ message: "stageName, style, caption, and favoriteTrack are required" });
   }
 
-  return res.status(201).json(await createMusicianPost(req.body));
+  const post = await MusicianPost.create(req.body);
+  return res.status(201).json(toMusicianPost(post));
 }

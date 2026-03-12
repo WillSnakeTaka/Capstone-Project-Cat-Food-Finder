@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { env } from "../config/env.js";
-import { findUserById } from "../data/fakeDb.js";
+import { User } from "../models/User.js";
 
 export async function requireAuth(req, res, next) {
   try {
@@ -9,7 +9,7 @@ export async function requireAuth(req, res, next) {
     if (!token) return res.status(401).json({ message: "Missing token" });
 
     const payload = jwt.verify(token, env.jwtSecret);
-    const user = await findUserById(String(payload.sub || ""));
+    const user = await User.findById(String(payload.sub || ""));
     if (!user) return res.status(401).json({ message: "Invalid token" });
 
     req.user = user;

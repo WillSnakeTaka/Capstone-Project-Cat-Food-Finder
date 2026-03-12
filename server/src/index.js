@@ -1,8 +1,10 @@
 import cors from "cors";
 import express from "express";
 import morgan from "morgan";
+import mongoose from "mongoose";
 import path from "path";
 import { fileURLToPath } from "url";
+import { connectDb } from "./config/db.js";
 import { env } from "./config/env.js";
 import authRoutes from "./routes/authRoutes.js";
 import communityRoutes from "./routes/communityRoutes.js";
@@ -30,7 +32,11 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 app.get("/api/health", (_req, res) => {
-  res.json({ ok: true, timestamp: new Date().toISOString(), db: "fake-json-db" });
+  res.json({
+    ok: true,
+    timestamp: new Date().toISOString(),
+    db: mongoose.connection.readyState === 1 ? "mongodb" : "disconnected",
+  });
 });
 
 app.use("/api/auth", authRoutes);
@@ -51,6 +57,13 @@ app.use((err, _req, res, _next) => {
   res.status(500).json({ message: "Server error" });
 });
 
-app.listen(env.port, () => {
-  console.log(`Server running on port ${env.port}`);
-});
+connectDb()
+  .then(() => {
+    app.listen(env.port, () => {
+      console.log(`Server running on port ${env.port}`);
+    });
+  })
+  .catch((error) => {
+    console.error("Failed to connect to MongoDB", error);
+    process.exit(1);
+  });

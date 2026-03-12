@@ -1,59 +1,63 @@
 # CatCart Marketplace
 
-Cute cat shopping site with a cat health hub, rescue board, cat musicians feed, and a small quiz.
+CatCart is a cat-first MERN capstone app with a real MongoDB backend.
 
-## What This Project Is
+## What Changed
 
-CatCart is a MERN-style capstone project.
+This project now reflects full CRUD from frontend to backend:
+- `React` sends requests from forms and pages
+- `Express` exposes REST routes
+- `MongoDB` stores users, products, rescue reports, and musician posts
+- `Mongoose` handles database models and queries
 
-In normal MERN:
-- `MongoDB` stores the data
-- `Express` handles the API
-- `React` builds the frontend
-- `Node` runs the server
-
-In this project:
-- we kept the `Express + React + Node` flow
-- we replaced MongoDB with a simple fake JSON database so the app is easier to run and deploy for class/demo use
-
-That means the app still behaves like a small full-stack shop, but setup is much simpler.
+The old `server/data/db.json` file is now treated as a dump/import file for MongoDB.
 
 ## Frontend
 
-Main frontend features:
-- Shop page with cat-only food, treats, and supplements
-- Sort options: `Top Rated`, `Newest`, `Price Low to High`, `Price High to Low`
-- Product detail page
-- Cart page
-- Cat health page with live cat facts and cat images
-- Rescue board for homeless cat reports
-- Cat musicians social-style feed
-- Cat quiz with a `Next Fact` button
+Frontend pages:
+- Home
+- Shop
+- Product Detail
+- Cart
+- Expert Guide
+- Rescue
+- Musicians
+- Quiz
+- About
+- Auth
+- Seller Dashboard
 
-Frontend stack:
+Frontend tools:
 - `React`
 - `TypeScript`
 - `React Router`
 - `Redux Toolkit`
 - `fetch`
 
+Frontend CRUD flow:
+- Seller creates a product in the dashboard form
+- React sends `POST /api/products`
+- MongoDB stores it
+- Shop page reads it with `GET /api/products`
+- Seller updates it with `PUT /api/products/:id`
+- Seller deletes it with `DELETE /api/products/:id`
+
 ## Backend
 
-Main backend features:
-- JWT login and signup
-- Buyer and seller roles
-- Product CRUD
-- Cat health API proxy routes
-- Community routes for rescue reports and musician posts
-- Fake JSON database in `server/data/db.json`
-
-Backend stack:
+Backend tools:
 - `Node.js`
 - `Express`
+- `Mongoose`
 - `bcryptjs`
 - `jsonwebtoken`
 
-## API List
+Mongo collections:
+- `users`
+- `products`
+- `rescuereports`
+- `musicianposts`
+
+CRUD routes:
 
 Auth:
 - `POST /api/auth/register`
@@ -67,30 +71,91 @@ Products:
 - `PUT /api/products/:id`
 - `DELETE /api/products/:id`
 
-Cat health:
-- `GET /api/cat-health/facts`
-- `GET /api/cat-health/image`
-
 Community:
 - `GET /api/community/rescue-reports`
 - `POST /api/community/rescue-reports`
 - `GET /api/community/musician-posts`
 - `POST /api/community/musician-posts`
 
+Cat health:
+- `GET /api/cat-health/facts`
+- `GET /api/cat-health/image`
+
 System:
 - `GET /api/health`
 
-## Local Run
+## MongoDB Compass
+
+Use Compass like this:
+
+1. Create or connect to a MongoDB database.
+2. Use database name `catcart`.
+3. You do not need to manually build every document first.
+4. Run the import script and Compass will show the collections after data is inserted.
+
+Expected collections:
+- `users`
+- `products`
+- `rescuereports`
+- `musicianposts`
+
+## How To Move Current Data Into MongoDB
+
+The current dump file is:
+- `server/data/db.json`
+
+This file holds your sample users, products, rescue reports, and musician posts.
+
+To move that data into MongoDB:
+
+1. Start MongoDB locally or use Atlas.
+2. Set `server/.env`.
+3. Run the import script:
+
+```bash
+npm --prefix server run import:mongo
+```
+
+That script:
+- reads `server/data/db.json`
+- creates Mongo documents
+- maps old seller ids to new Mongo user ids
+- imports all shop and community data
+
+## Local Setup
+
+Install:
 
 ```bash
 npm install
-cd server && npm install && cd ..
+npm --prefix server install
 cp .env.example .env
 cp server/.env.example server/.env
+```
+
+Edit `server/.env`:
+
+```env
+PORT=4000
+MONGODB_URI=mongodb://127.0.0.1:27017/catcart
+MONGODB_DB_NAME=catcart
+JWT_SECRET=replace-with-strong-secret
+CLIENT_ORIGIN=http://localhost:3000
+```
+
+Import the dump file into Mongo:
+
+```bash
+npm --prefix server run import:mongo
+```
+
+Run backend:
+
+```bash
 npm run server
 ```
 
-In a second terminal:
+Run frontend in a second terminal:
 
 ```bash
 npm start
@@ -100,48 +165,33 @@ Local URLs:
 - frontend: `http://localhost:3000`
 - backend health: `http://localhost:4000/api/health`
 
-Demo seller login:
+Demo seller login after import:
 - email: `seller@example.com`
 - password: `password123`
 
-## Environment
+## Render
 
-`server/.env`
+This repo includes `render.yaml`.
 
-```env
-PORT=4000
-JWT_SECRET=replace-with-strong-secret
-CLIENT_ORIGIN=http://localhost:3000
-```
+Render env vars:
+- `MONGODB_URI`
+- `MONGODB_DB_NAME`
+- `JWT_SECRET`
+- `CLIENT_ORIGIN`
 
-## Render Deploy
+Render note:
+- frontend uses relative `/api`
+- Express serves both API and React build
+- MongoDB should be Atlas in production
 
-This repo already includes `render.yaml`.
+## Simple MERN Explanation
 
-Render setup:
-1. Push this repo to GitHub.
-2. In Render, choose `New` -> `Blueprint`.
-3. Select this repo.
-4. Add these env vars in Render:
-   - `JWT_SECRET`
-   - `CLIENT_ORIGIN`
-5. Deploy.
+Why this now counts as MERN:
+- `MongoDB` = database
+- `Express` = API layer
+- `React` = frontend
+- `Node` = server runtime
 
-Render notes:
-- the Express server serves both the API and the React build
-- the fake DB is stored in `server/data/db.json`
-- the Render disk in `render.yaml` keeps that fake DB persistent
-- frontend API calls use relative `/api` in production, so no extra frontend env var is required
-
-## Cute Extras
-
-- Product cards use cat-food artwork instead of random scenery
-- Banners use live cat images from cat APIs
-- Rescue page links to real cat-related rescue/search sites like `Petfinder`, `PawBoost`, `Petco Love Lost`, and `Alley Cat Allies`
-- Quiz uses live cat facts API data
-
-## Simple Project Pitch
-
-CatCart is a cute cat-first shopping site that mixes e-commerce with cat care and community tools.
-People can shop for cat food, learn cat health basics, report homeless cats, and hang out in a fun cat musician feed.
-It is simple enough to demo quickly, but full-stack enough to show real frontend/backend/API structure.
+The React app talks to Express.
+Express talks to MongoDB.
+That is the frontend-to-backend CRUD flow your project requirement is asking for.
