@@ -168,16 +168,42 @@ async function ensureDbFile() {
   }
 }
 
+function normalizeDbShape(parsed = {}) {
+  return {
+    users: Array.isArray(parsed.users) ? parsed.users : [],
+    products: Array.isArray(parsed.products) ? parsed.products : [],
+    rescueReports: Array.isArray(parsed.rescueReports) ? parsed.rescueReports : [],
+    musicianPosts: Array.isArray(parsed.musicianPosts) ? parsed.musicianPosts : [],
+    carts: Array.isArray(parsed.carts) ? parsed.carts : [],
+  };
+}
+
+function shouldBootstrapDb(data) {
+  return (
+    data.products.length === 0 ||
+    data.users.length === 0 ||
+    data.rescueReports.length === 0 ||
+    data.musicianPosts.length === 0
+  );
+}
+
 async function readDb() {
   await ensureDbFile();
-  const raw = await fs.readFile(DB_FILE, "utf8");
-  const parsed = JSON.parse(raw);
-  return {
-    users: parsed.users || [],
-    products: parsed.products || [],
-    rescueReports: parsed.rescueReports || [],
-    musicianPosts: parsed.musicianPosts || [],
-    carts: parsed.carts || [],
+  try {
+    const raw = await fs.readFile(DB_FILE, "utf8");
+    const data = normalizeDbShape(JSON.parse(raw));
+
+    if (shouldBootstrapDb(data)) {
+      const starter = createStarterDb();
+      await writeDb(starter);
+      return starter;
+    }
+
+    return data;
+  } catch {
+    const starter = createStarterDb();
+    await writeDb(starter);
+    return starter;
   };
 }
 

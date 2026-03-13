@@ -4,23 +4,34 @@ Also, the server.env has changed to mongoDB link, it is just that there is VPN I
 [Render Link:](https://capstone-project-cat-food-finder.onrender.com)
 # CatCart Marketplace
 
-Final Chimera version stolen from two cohort fellows, Tammy and Lavette. Tammy's super quiz app helped us enhanced our cat quiz in the last minutes, and then Tammy and Dylan's last mintues deployment gave me an idea! 
+---
 
-From Skin-Deep-Back-End:
-cart should be its own Mongo model, not only frontend state
-product schemas benefit from indexes for search/sort/filter
-product detail should have its own backend route
-From Skin-Deep-Front-End:
-product/cart flow is cleaner 
+## 🐾✨ Final Chimera Version
 
-From Tammy’s quizappfrontend:
-quiz UX is much better, selected state, and final result instead of one isolated question
+> 🙂 *Stolen from two cohort fellows, Tammy and Lavette. Tammy's super quiz app helped us enhanced our cat quiz in the last minutes, and then Tammy and Dylan's last mintues deployment gave me an idea!*
 
-Added : useFakeDB for dual-mode server, which may bypass the mongo and read our pre-arranged db.json for testing purpose.
-This will help with auth, products, community posts, and cart, to ensure add, update, delete stuffs may work. So, instead 
-of one db, we have a backup fakeDB.js for testing purpose. Then we change authController.js, auth.js, communityController.js,
-so on... 
+---
 
+### 🎨 From Skin-Deep-Back-End:
+- 🛒 cart should be its own Mongo model, not only frontend state
+- 🔍 product schemas benefit from indexes for search/sort/filter
+- 🛤️ product detail should have its own backend route
+
+### 💅 From Skin-Deep-Front-End:
+- 🌊 product/cart flow is cleaner
+
+### 🧠 From Tammy's quizappfrontend:
+- 🐱 quiz UX is much better, selected state, and final result instead of one isolated question
+
+---
+
+### 🔧 Added: `useFakeDB` for Dual-Mode Server
+
+> 🗄️ *Which may bypass the mongo and read our pre-arranged `db.json` for testing purpose.*
+
+This will help with auth, products, community posts, and cart, to ensure add, update, delete stuffs may work. So, instead of one db, we have a backup `fakeDB.js` for testing purpose. Then we change `authController.js`, `auth.js`, `communityController.js`, so on...
+
+---
 
 // Below is fake professional instructions... 
 
