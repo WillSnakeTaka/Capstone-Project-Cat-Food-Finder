@@ -1243,3 +1243,69 @@ button:hover, .btn-link:hover { background: var(--accent-dark); }
     grid-template-columns: 1fr;
   }
 }
+
+.quiz-card {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.quiz-progress {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.quiz-stage {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(255, 240, 232, 0.8));
+  border: 1.5px solid var(--line);
+  border-radius: 18px;
+  padding: 22px;
+}
+
+.quiz-stage h2 {
+  margin-bottom: 18px;
+}
+
+.quiz-options {
+  display: grid;
+  gap: 12px;
+}
+
+.quiz-option {
+  text-align: left;
+  line-height: 1.5;
+}
+
+.quiz-option.selected {
+  background: linear-gradient(135deg, var(--brand), var(--cute-purple));
+  box-shadow: 0 8px 24px rgba(139, 79, 127, 0.18);
+}
+
+.quiz-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.quiz-nav button:last-child {
+  margin-left: auto;
+}
+
+.quiz-results-card {
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .quiz-progress,
+  .quiz-nav {
+    flex-direction: column;
+  }
+
+  .quiz-nav button:last-child {
+    margin-left: 0;
+  }
+}

@@ -7,6 +7,7 @@ import { fileURLToPath } from "url";
 import { connectDb } from "./config/db.js";
 import { env } from "./config/env.js";
 import authRoutes from "./routes/authRoutes.js";
+import cartRoutes from "./routes/cartRoutes.js";
 import communityRoutes from "./routes/communityRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import catHealthRoutes from "./routes/catHealthRoutes.js";
@@ -35,11 +36,12 @@ app.get("/api/health", (_req, res) => {
   res.json({
     ok: true,
     timestamp: new Date().toISOString(),
-    db: mongoose.connection.readyState === 1 ? "mongodb" : "disconnected",
+    db: env.useFakeDb ? "fake-json-db" : mongoose.connection.readyState === 1 ? "mongodb" : "disconnected",
   });
 });
 
 app.use("/api/auth", authRoutes);
+app.use("/api/cart", cartRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/cat-health", catHealthRoutes);
 app.use("/api/community", communityRoutes);
@@ -57,13 +59,19 @@ app.use((err, _req, res, _next) => {
   res.status(500).json({ message: "Server error" });
 });
 
-connectDb()
-  .then(() => {
-    app.listen(env.port, () => {
-      console.log(`Server running on port ${env.port}`);
-    });
-  })
-  .catch((error) => {
-    console.error("Failed to connect to MongoDB", error);
-    process.exit(1);
+if (env.useFakeDb) {
+  app.listen(env.port, () => {
+    console.log(`Server running on port ${env.port} with fake JSON DB`);
   });
+} else {
+  connectDb()
+    .then(() => {
+      app.listen(env.port, () => {
+        console.log(`Server running on port ${env.port}`);
+      });
+    })
+    .catch((error) => {
+      console.error("Failed to connect to MongoDB", error);
+      process.exit(1);
+    });
+}

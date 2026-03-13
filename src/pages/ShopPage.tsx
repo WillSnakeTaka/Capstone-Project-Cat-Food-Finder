@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
+import { addCartItem as addCartItemRequest } from "../api/cartApi";
 import ProductList from "../components/ProductList";
 import CatPhotoBanner from "../components/CatPhotoBanner";
 import { deleteProduct, listProducts } from "../api/productsApi";
 import { useAuth } from "../context/AuthContext";
-import { addToCart } from "../features/cart/cartSlice";
+import { addToCart, replaceCart } from "../features/cart/cartSlice";
 import { AppDispatch } from "../app/store";
 import { Product } from "../types";
 
@@ -53,6 +54,20 @@ export default function ShopPage() {
       setItems(await listProducts(filters));
     } catch (err) {
       setError(err instanceof Error ? err.message : "Delete failed");
+    }
+  }
+
+  async function handleAddToCart(item: Product) {
+    try {
+      if (user) {
+        const data = await addCartItemRequest(item.id, 1);
+        dispatch(replaceCart(data.items));
+        return;
+      }
+
+      dispatch(addToCart(item));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unable to add to cart");
     }
   }
 
@@ -143,7 +158,7 @@ export default function ShopPage() {
             <p className="status-card">Loading products...</p>
           ) : (
             <>
-              <ProductList items={hydratedItems} mode="shop" onDelete={handleDelete} onAddToCart={(item) => dispatch(addToCart(item))} />
+              <ProductList items={hydratedItems} mode="shop" onDelete={handleDelete} onAddToCart={handleAddToCart} />
               {hydratedItems.length === 0 && <p className="status-card">No products match your criteria.</p>}
             </>
           )}
@@ -163,7 +178,7 @@ export default function ShopPage() {
                     View All →
                   </button>
                 </div>
-                <ProductList items={categoryProducts} mode="shop" onDelete={handleDelete} onAddToCart={(item) => dispatch(addToCart(item))} />
+                <ProductList items={categoryProducts} mode="shop" onDelete={handleDelete} onAddToCart={handleAddToCart} />
               </div>
             );
           })}

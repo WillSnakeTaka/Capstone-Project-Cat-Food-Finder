@@ -1101,5 +1101,19 @@
       "favoriteTrack": "Moonlight Meow Sonata",
       "createdAt": "2026-03-11T16:03:29.823Z"
     }
+  ],
+  "carts": [
+    {
+      "id": "46e0d358-1b17-4966-aa2c-6f54a757e040",
+      "userId": "demo-seller-1",
+      "items": [
+        {
+          "id": "5f76e849-a2fa-4b69-b7d1-e4df5aebca45",
+          "productId": "69cb8562-f796-47be-bc21-797cd7e2a664",
+          "quantity": 2
+        }
+      ],
+      "updatedAt": "2026-03-13T02:49:38.883Z"
+    }
   ]
 }

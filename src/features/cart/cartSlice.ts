@@ -12,6 +12,7 @@ function normalizeStoredItems(items: unknown): CartItem[] {
   return items
     .filter((item): item is Partial<CartItem> => Boolean(item && typeof item === "object"))
     .map((item) => ({
+      id: item.id ? String(item.id) : undefined,
       productId: String(item.productId || ""),
       title: String(item.title || "Cat food"),
       imageUrl: item.imageUrl ? String(item.imageUrl) : "",
@@ -58,6 +59,10 @@ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
+    replaceCart(state, action: PayloadAction<CartItem[]>) {
+      state.items = normalizeStoredItems(action.payload);
+      persistCart(state.items);
+    },
     addToCart(state, action: PayloadAction<Product>) {
       const product = action.payload;
       const existing = state.items.find((item) => item.productId === product.id);
@@ -65,6 +70,7 @@ const cartSlice = createSlice({
         existing.quantity += 1;
       } else {
         state.items.push({
+          id: undefined,
           productId: product.id,
           title: product.title,
           imageUrl: product.imageUrl,
@@ -91,7 +97,7 @@ const cartSlice = createSlice({
   },
 });
 
-export const { addToCart, removeFromCart, setQuantity, clearCart } = cartSlice.actions;
+export const { replaceCart, addToCart, removeFromCart, setQuantity, clearCart } = cartSlice.actions;
 export const selectCartCount = (state: RootState) => state.cart.items.reduce((sum, item) => sum + item.quantity, 0);
 export const selectCartTotal = (state: RootState) => state.cart.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 export default cartSlice.reducer;

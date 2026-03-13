@@ -6,6 +6,7 @@ import { User } from "./models/User.js";
 import { Product } from "./models/Product.js";
 import { RescueReport } from "./models/RescueReport.js";
 import { MusicianPost } from "./models/MusicianPost.js";
+import { Cart } from "./models/Cart.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,6 +19,7 @@ async function main() {
   await connectDb();
 
   await Promise.all([
+    Cart.deleteMany({}),
     Product.deleteMany({}),
     User.deleteMany({}),
     RescueReport.deleteMany({}),

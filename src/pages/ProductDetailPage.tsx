@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Product } from "../types";
-import { listProducts } from "../api/productsApi";
-import { addToCart } from "../features/cart/cartSlice";
+import { addCartItem as addCartItemRequest } from "../api/cartApi";
+import { getProduct } from "../api/productsApi";
+import { addToCart, replaceCart } from "../features/cart/cartSlice";
 import { AppDispatch } from "../app/store";
 import CatPhotoBanner from "../components/CatPhotoBanner";
+import { useAuth } from "../context/AuthContext";
 
 function formatPrice(value: number) {
   return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(value || 0);
@@ -14,6 +16,7 @@ function formatPrice(value: number) {
 export default function ProductDetailPage() {
   const { id } = useParams<{ id: string }>();
   const dispatch = useDispatch<AppDispatch>();
+  const { user } = useAuth();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -25,14 +28,7 @@ export default function ProductDetailPage() {
       setLoading(true);
       setError("");
       try {
-        const products = await listProducts();
-        const found = products.find((p) => p.id === id);
-        if (!found) {
-          setError("Product not found");
-          setProduct(null);
-        } else {
-          setProduct(found);
-        }
+        setProduct(await getProduct(id as string));
       } catch (err) {
         setError(err instanceof Error ? err.message : "Unable to load product");
       } finally {
@@ -45,13 +41,21 @@ export default function ProductDetailPage() {
 
   function handleAddToCart() {
     if (!product) return;
+    (async () => {
+      if (user) {
+        const data = await addCartItemRequest(product.id, quantity);
+        dispatch(replaceCart(data.items));
+      } else {
+        for (let i = 0; i < quantity; i += 1) {
+          dispatch(addToCart(product));
+        }
+      }
 
-    for (let i = 0; i < quantity; i++) {
-      dispatch(addToCart(product));
-    }
-
-    setAddedToCart(true);
-    setTimeout(() => setAddedToCart(false), 3000);
+      setAddedToCart(true);
+      setTimeout(() => setAddedToCart(false), 3000);
+    })().catch((err) => {
+      setError(err instanceof Error ? err.message : "Unable to add to cart");
+    });
   }
 
   if (loading) return <p className="status-card">Loading product details...</p>;

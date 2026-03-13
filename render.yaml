@@ -12,6 +12,8 @@ services:
         value: 20
       - key: PORT
         value: 10000
+      - key: USE_FAKE_DB
+        value: true
       - key: CLIENT_ORIGIN
         sync: false
       - key: JWT_SECRET

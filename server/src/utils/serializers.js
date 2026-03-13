@@ -1,6 +1,6 @@
 export function toPublicUser(user) {
   return {
-    id: String(user._id),
+    id: String(user._id || user.id),
     name: user.name,
     email: user.email,
     role: user.role,
@@ -8,15 +8,18 @@ export function toPublicUser(user) {
 }
 
 export function toProduct(product) {
+  const productId = String(product._id || product.id);
   const sellerId =
     typeof product.seller === "string"
       ? product.seller
       : product.seller?._id
         ? String(product.seller._id)
+        : product.seller?.id
+          ? String(product.seller.id)
         : String(product.seller);
 
   return {
-    id: String(product._id),
+    id: productId,
     title: product.title,
     category: product.category,
     brand: product.brand,
@@ -32,9 +35,26 @@ export function toProduct(product) {
   };
 }
 
+export function toCart(cart) {
+  return {
+    id: String(cart._id),
+    items: (cart.items || [])
+      .filter((item) => item.product)
+      .map((item) => ({
+        id: String(item._id),
+        productId: String(item.product._id),
+        title: item.product.title,
+        imageUrl: item.product.imageUrl,
+        price: item.product.price,
+        quantity: item.quantity,
+      })),
+    updatedAt: cart.updatedAt,
+  };
+}
+
 export function toRescueReport(report) {
   return {
-    id: String(report._id),
+    id: String(report._id || report.id),
     catName: report.catName,
     city: report.city,
     contactName: report.contactName,
@@ -47,7 +67,7 @@ export function toRescueReport(report) {
 
 export function toMusicianPost(post) {
   return {
-    id: String(post._id),
+    id: String(post._id || post.id),
     stageName: post.stageName,
     style: post.style,
     caption: post.caption,

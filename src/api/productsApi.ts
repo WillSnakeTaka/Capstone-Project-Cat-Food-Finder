@@ -18,6 +18,10 @@ export function listMyProducts() {
   return apiFetch<Product[]>("/products/mine");
 }
 
+export function getProduct(id: string) {
+  return apiFetch<Product>(`/products/${id}`);
+}
+
 export function createProduct(payload: Partial<Product>) {
   return apiFetch<Product>("/products", { method: "POST", body: JSON.stringify(payload) });
 }

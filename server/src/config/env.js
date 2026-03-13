@@ -8,4 +8,5 @@ export const env = {
   clientOrigin: process.env.CLIENT_ORIGIN || "http://localhost:3000",
   mongoUri: process.env.MONGODB_URI || "",
   mongoDbName: process.env.MONGODB_DB_NAME || "catcart",
+  useFakeDb: process.env.USE_FAKE_DB === "true",
 };

@@ -133,6 +133,7 @@ function createStarterDb() {
         updatedAt: now,
       },
     ],
+    carts: [],
     rescueReports: [
       {
         id: "starter-report-1",
@@ -176,6 +177,7 @@ async function readDb() {
     products: parsed.products || [],
     rescueReports: parsed.rescueReports || [],
     musicianPosts: parsed.musicianPosts || [],
+    carts: parsed.carts || [],
   };
 }
 
@@ -207,6 +209,12 @@ export async function createUser({ name, email, passwordHash, role }) {
   db.users.push(user);
   await writeDb(db);
   return user;
+}
+
+export async function findProductById(id) {
+  const db = await readDb();
+  const product = db.products.find((entry) => entry.id === id);
+  return product ? normalizeProduct(product) : null;
 }
 
 export async function listProducts(filters) {
@@ -343,4 +351,92 @@ export async function createMusicianPost(payload) {
   db.musicianPosts.push(post);
   await writeDb(db);
   return post;
+}
+
+function mapCartItems(items, products) {
+  return items
+    .map((item) => {
+      const product = products.find((entry) => entry.id === item.productId);
+      if (!product) return null;
+      const normalized = normalizeProduct(product);
+      return {
+        id: item.id,
+        productId: normalized.id,
+        title: normalized.title,
+        imageUrl: normalized.imageUrl,
+        price: normalized.price,
+        quantity: item.quantity,
+      };
+    })
+    .filter(Boolean);
+}
+
+export async function getCartByUser(userId) {
+  const db = await readDb();
+  const cart = db.carts.find((entry) => entry.userId === userId);
+  if (!cart) return { items: [] };
+  return { items: mapCartItems(cart.items || [], db.products) };
+}
+
+export async function addCartItem({ userId, productId, quantity = 1 }) {
+  const db = await readDb();
+  const product = db.products.find((entry) => entry.id === productId);
+  if (!product) return null;
+
+  let cart = db.carts.find((entry) => entry.userId === userId);
+  if (!cart) {
+    cart = { id: randomUUID(), userId, items: [], updatedAt: new Date().toISOString() };
+    db.carts.push(cart);
+  }
+
+  const existing = cart.items.find((item) => item.productId === productId);
+  if (existing) {
+    existing.quantity += Math.max(1, Number(quantity || 1));
+  } else {
+    cart.items.push({
+      id: randomUUID(),
+      productId,
+      quantity: Math.max(1, Number(quantity || 1)),
+    });
+  }
+
+  cart.updatedAt = new Date().toISOString();
+  await writeDb(db);
+  return { items: mapCartItems(cart.items, db.products) };
+}
+
+export async function updateCartItem({ userId, itemId, quantity }) {
+  const db = await readDb();
+  const cart = db.carts.find((entry) => entry.userId === userId);
+  if (!cart) return null;
+
+  const item = cart.items.find((entry) => entry.id === itemId);
+  if (!item) return null;
+
+  item.quantity = Math.max(1, Number(quantity || 1));
+  cart.updatedAt = new Date().toISOString();
+  await writeDb(db);
+  return { items: mapCartItems(cart.items, db.products) };
+}
+
+export async function removeCartItem({ userId, itemId }) {
+  const db = await readDb();
+  const cart = db.carts.find((entry) => entry.userId === userId);
+  if (!cart) return null;
+
+  cart.items = cart.items.filter((entry) => entry.id !== itemId);
+  cart.updatedAt = new Date().toISOString();
+  await writeDb(db);
+  return { items: mapCartItems(cart.items, db.products) };
+}
+
+export async function clearCartByUser(userId) {
+  const db = await readDb();
+  const cart = db.carts.find((entry) => entry.userId === userId);
+  if (!cart) return { items: [] };
+
+  cart.items = [];
+  cart.updatedAt = new Date().toISOString();
+  await writeDb(db);
+  return { items: [] };
 }
