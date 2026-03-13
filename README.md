@@ -1,14 +1,14 @@
 this is one of them working one but I seriously forgot which, since I opened several window, I think this is the mongodb dump file one where db.json cururent data dump is used as import sourcce for mongo
 Also, the server.env has changed to mongoDB link, it is just that there is VPN IP address issues, somehow they kept recognize the latest IP addresses which was from Albania.🇦🇱🩷 Then Atlas and Compass didn't sync well. I had created a seperate db which duplicate db.json. 
 
-[Render Link:](https://capstone-cat-food-finder.onrender.com))
+[👨‍💻Render Link 🔗: Click this blue thing just in case you don't know 🥲](https://capstone-cat-food-finder.onrender.com)
 # CatCart Marketplace
 
 ---
 
 ## 🐾✨ Final Chimera Version
 
-> 🙂 *Stolen from two cohort fellows, Tammy and Lavette. Tammy's super quiz app helped us enhanced our cat quiz in the last minutes, and then Tammy and Dylan's last mintues deployment gave me an idea!*
+> 🙂🫳 *Stolen from two cohort fellows, Tammy and Lavette. Tammy's super quiz app helped us enhanced our cat quiz in the last minutes, and then Tammy and Dylan's last mintues deployment gave me an idea!*
 
 ---
 Credits:
