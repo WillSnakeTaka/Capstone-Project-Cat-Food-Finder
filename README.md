@@ -12,8 +12,10 @@ Also, the server.env has changed to mongoDB link, it is just that there is VPN I
 
 ---
 Credits:
-[Lavette's Beauty Store](https://github.com/lavetted/Skin-Deep-Front-End)
-[Tammy's Quiz](https://github.com/TammyforIT/quizappfrontend)
+
+[Lavette's Beauty Store💅](https://github.com/lavetted/Skin-Deep-Front-End)
+
+[Tammy's Quiz📝](https://github.com/TammyforIT/quizappfrontend)
 
 ### 🎨 From Skin-Deep-Back-End:
 - 🛒 cart should be its own Mongo model, not only frontend state
