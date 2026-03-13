@@ -8,7 +8,7 @@ Also, the server.env has changed to mongoDB link, it is just that there is VPN I
 
 ## 🐾✨ Final Chimera Version
 
-> 🙂🫳 *Stolen from two cohort fellows, Tammy and Lavette. Tammy's super quiz app helped us enhanced our cat quiz in the last minutes, and then Tammy and Dylan's last mintues deployment gave me an idea!*
+> 🫳 *Stolen from two cohort fellows, Tammy and Lavette. Tammy's super quiz app helped us enhanced our cat quiz in the last minutes, and then Tammy and Dylan's last mintues deployment gave me an idea!*
 
 ---
 Credits:
