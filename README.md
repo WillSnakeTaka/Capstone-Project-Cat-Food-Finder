@@ -17,15 +17,15 @@ Credits:
 
 [Tammy's Quiz📝](https://github.com/TammyforIT/quizappfrontend)
 
-### 🎨 From Skin-Deep-Back-End:
+### 🎨 Stolen ideas From Skin-Deep-Back-End:
 - 🛒 cart should be its own Mongo model, not only frontend state
 - 🔍 product schemas benefit from indexes for search/sort/filter
 - 🛤️ product detail should have its own backend route
 
-### 💅 From Skin-Deep-Front-End:
+### 💅 Stolen ideas From Skin-Deep-Front-End:
 - 🌊 product/cart flow is cleaner
 
-### 🧠 From Tammy's quizappfrontend:
+### 🧠 Stolen ideas From Tammy's quizappfrontend:
 - 🐱 quiz UX is much better, selected state, and final result instead of one isolated question
 
 ---
